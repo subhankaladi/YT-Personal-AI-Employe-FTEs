@@ -200,20 +200,24 @@ class Orchestrator:
 
         self.logger.info(f'Found {len(pending)} pending item(s)')
 
-        # Build prompt for Qwen
+        # Build prompt for Qwen - more specific instructions
         files = ', '.join([f.name for f in pending])
         prompt = f"""I have {len(pending)} item(s) in /Needs_Action that need processing: {files}
 
-Please:
-1. Read each file in /Needs_Action
-2. Read the Company_Handbook.md for rules of engagement
-3. Determine what action needs to be taken
-4. Create a Plan.md if multiple steps are required
-5. For sensitive actions, create an approval request in /Pending_Approval
-6. For simple actions, proceed and then move files to /Done
-7. Update the Dashboard.md with the results
+Please follow this workflow:
 
-Work through each item systematically."""
+1. READ each file in /Needs_Action
+2. READ Company_Handbook.md for rules of engagement
+3. CREATE a Plan.md file in /Plans/ for each item with:
+   - Clear objective
+   - Step-by-step checklist
+   - Mark steps that require approval
+4. For steps requiring approval, CREATE approval request in /Pending_Approval/
+5. For simple actions without approval, EXECUTE them directly
+6. MOVE completed items to /Done/
+7. UPDATE Dashboard.md with results
+
+Be specific and create actual files, not just suggestions."""
 
         if self.trigger_qwen(prompt):
             # Mark files as processed
@@ -230,17 +234,164 @@ Work through each item systematically."""
         self.logger.info(f'Found {len(approved)} approved item(s) ready for action')
 
         for item in approved:
-            prompt = f"""The file {item.name} in /Approved has been approved by human.
-
-Please:
-1. Read the approved file
-2. Execute the approved action
-3. Log the action in /Logs
-4. Move the file to /Done
-5. Update Dashboard.md"""
-
-            if self.trigger_qwen(prompt):
+            self.logger.info(f'Processing: {item.name}')
+            
+            # Read the approved file
+            content = item.read_text()
+            
+            # Extract action type
+            action_type = self._extract_field(content, 'action')
+            
+            self.logger.info(f'Action type: {action_type}')
+            
+            if action_type == 'email_send':
+                # Extract email details
+                to_email = self._extract_field(content, 'to')
+                subject = self._extract_field(content, 'subject')
+                
+                # Extract body from the approval file
+                body = self._extract_email_body(content)
+                
+                if not to_email or not subject:
+                    self.logger.error(f'Missing email details in {item.name}')
+                    continue
+                
+                self.logger.info(f"Sending email to {to_email}")
+                self.logger.info(f"Subject: {subject}")
+                
+                # Send email using send_email.py script
+                result = self._send_email_via_script(to_email, subject, body)
+                
+                if result.get('status') == 'sent':
+                    self.logger.info(f"✓ Email sent successfully!")
+                    self.log_action('email_sent', f"To: {to_email}, Subject: {subject}")
+                else:
+                    self.logger.error(f"✗ Email send failed: {result}")
+            else:
+                self.logger.info(f'Unknown action type: {action_type}')
+            
+            # Move to Done after processing
+            dest = self.done / item.name
+            try:
+                item.rename(dest)
+                self.logger.info(f'Moved to Done: {dest.name}')
                 self.processed_files.add(item.name)
+            except Exception as e:
+                self.logger.error(f'Error moving file: {e}')
+    
+    def _send_email_via_script(self, to: str, subject: str, body: str) -> dict:
+        """Send email using send_email.py script."""
+        import subprocess
+        
+        try:
+            # Build command
+            cmd = [
+                'python',
+                'send_email.py',
+                '--to', to,
+                '--subject', subject,
+                '--body', body,
+                '--quiet'
+            ]
+            
+            self.logger.info(f"Running: {' '.join(cmd)}")
+            
+            result = subprocess.run(
+                cmd,
+                cwd=str(Path(__file__).parent),
+                capture_output=True,
+                text=True,
+                timeout=60
+            )
+            
+            self.logger.info(f"stdout: {result.stdout}")
+            self.logger.info(f"stderr: {result.stderr}")
+            
+            if result.returncode == 0 and 'Email sent successfully' in result.stdout:
+                return {'status': 'sent'}
+            else:
+                return {'status': 'error', 'error': result.stderr or 'Unknown error'}
+                
+        except subprocess.TimeoutExpired:
+            return {'status': 'error', 'error': 'Timeout'}
+        except Exception as e:
+            return {'status': 'error', 'error': str(e)}
+    
+    def _extract_field(self, content: str, field: str, default: str = '') -> str:
+        """Extract field from markdown content."""
+        import re
+        # Try frontmatter format first (field: value)
+        match = re.search(rf'^{field}:\s*(.+)$', content, re.MULTILINE)
+        if match:
+            return match.group(1).strip()
+        return default
+    
+    def _extract_email_body(self, content: str) -> str:
+        """Extract email body from approval file."""
+        import re
+        
+        # Look for body after various section headers
+        patterns = [
+            r'## Suggested Reply\s*\n(.*?)(?:^##|^---|\Z)',  # ## Suggested Reply
+            r'## Reply Content\s*\n(.*?)(?:^##|^---|\Z)',     # ## Reply Content
+            r'## Content\s*\n(.*?)(?:^##|^---|\Z)',           # ## Content
+            r'## Email Body\s*\n(.*?)(?:^##|^---|\Z)',        # ## Email Body
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, content, re.DOTALL | re.MULTILINE)
+            if match:
+                body = match.group(1).strip()
+                # Remove markdown formatting
+                body = re.sub(r'^\s*\*\s*', '', body, flags=re.MULTILINE)
+                return body
+        
+        # If no section found, return content after frontmatter
+        lines = content.split('\n')
+        in_body = False
+        body_lines = []
+        
+        for line in lines:
+            if line.strip() == '---' and not in_body:
+                in_body = True
+                continue
+            if in_body and not line.startswith('---'):
+                if line.startswith('#'):
+                    continue  # Skip headers
+                body_lines.append(line)
+        
+        return '\n'.join(body_lines).strip()
+    
+    def send_email_via_mcp(self, to: str, subject: str, body: str) -> dict:
+        """Send email using Email MCP Server."""
+        import subprocess
+        
+        try:
+            # Call email_mcp_server.py directly
+            cmd = [
+                'python',
+                'email_mcp_server.py',
+                '--send',
+                '--to', to,
+                '--subject', subject,
+                '--body', body
+            ]
+            
+            result = subprocess.run(
+                cmd,
+                cwd=str(Path(__file__).parent),
+                capture_output=True,
+                text=True,
+                timeout=60
+            )
+            
+            if result.returncode == 0:
+                return {'status': 'sent', 'id': 'sent_via_mcp'}
+            else:
+                return {'status': 'error', 'error': result.stderr}
+                
+        except Exception as e:
+            return {'status': 'error', 'error': str(e)}
     
     def log_action(self, action_type: str, details: str, status: str = 'success'):
         """Log an action to the logs folder."""
