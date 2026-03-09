@@ -1,0 +1,141 @@
+# =============================================================================
+# Personal AI Employee FTEs - Git Ignore File
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# CRITICAL: Authentication & Credentials (NEVER commit these)
+# -----------------------------------------------------------------------------
+credentials.json
+**/.env
+**/*.env
+**/*.pkl
+**/.linkedin_session/
+**/.gmail_token.pkl
+**/.gmail_cache.pkl
+
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# -----------------------------------------------------------------------------
+# Obsidian Vault - Personal Data
+# -----------------------------------------------------------------------------
+AI_Employee_Vault/.obsidian/
+
+# Keep folder structure but ignore sensitive file content
+# These folders show the agent workflow for hackathon demo
+AI_Employee_Vault/Logs/*.log
+AI_Employee_Vault/Logs/*.txt
+AI_Employee_Vault/Inbox/*.md
+AI_Employee_Vault/Needs_Action/*.md
+AI_Employee_Vault/In_Progress/*.md
+AI_Employee_Vault/Pending_Approval/*.md
+AI_Employee_Vault/Approved/*.md
+AI_Employee_Vault/Rejected/*.md
+AI_Employee_Vault/Done/*.md
+AI_Employee_Vault/Accounting/*.md
+AI_Employee_Vault/Invoices/*.md
+AI_Employee_Vault/Briefings/*.md
+
+# Keep folder structure with .gitkeep files
+# AI_Employee_Vault/Logs/.gitkeep
+# AI_Employee_Vault/Inbox/.gitkeep
+# etc.
+
+# -----------------------------------------------------------------------------
+# Odoo
+# -----------------------------------------------------------------------------
+odoo/odoo-logs/
+odoo/odoo-config/*.env
+odoo/odoo-custom-addons/*.pyc
+odoo/__pycache__/
+
+# Docker
+odoo/.docker/
+
+# -----------------------------------------------------------------------------
+# Facebook
+# -----------------------------------------------------------------------------
+facebook/__pycache__/
+facebook/*.pyc
+
+# -----------------------------------------------------------------------------
+# Logs & Temporary Files
+# -----------------------------------------------------------------------------
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+
+# -----------------------------------------------------------------------------
+# OS Files
+# -----------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# -----------------------------------------------------------------------------
+# Testing & Coverage
+# -----------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# -----------------------------------------------------------------------------
+# Jupyter Notebook
+# -----------------------------------------------------------------------------
+.ipynb_checkpoints
+
+# -----------------------------------------------------------------------------
+# Environment Variables (Templates should be kept)
+# -----------------------------------------------------------------------------
+# Keep .env.example files - they're templates
+# Ignore all other .env files
+*.env.local
+*.env.dev
+*.env.prod
+.env.*.local

@@ -1,0 +1,76 @@
+# Invoices Folder
+
+Invoice records (sent and received).
+
+## Example: Outgoing Invoice
+
+```markdown
+---
+type: invoice
+invoice_number: INV-2026-001
+issue_date: 2026-02-28
+due_date: 2026-03-15
+amount: 500.00
+currency: USD
+customer: Client A
+status: paid
+---
+
+## Invoice Details
+
+- **Number:** INV-2026-001
+- **Customer:** Client A
+- **Issue Date:** 2026-02-28
+- **Due Date:** 2026-03-15
+- **Amount:** $500.00
+
+## Line Items
+
+| Description | Quantity | Unit Price | Total |
+|-------------|----------|------------|-------|
+| AI Consulting (Feb 2026) | 1 | $500 | $500 |
+
+## Payment Status
+
+- [x] Invoice sent: 2026-02-28
+- [x] Payment received: 2026-03-05
+- [x] Recorded in Accounting
+
+## Linked Files
+
+- PDF: /Invoices/2026-02/INV-2026-001.pdf
+- Accounting Entry: /Accounting/2026-03/transaction_001.md
+```
+
+## Example: Incoming Invoice (Bill)
+
+```markdown
+---
+type: bill
+invoice_number: BILL-456
+issue_date: 2026-03-01
+due_date: 2026-03-30
+amount: 200.00
+currency: USD
+vendor: Software Inc
+category: software_subscription
+status: pending
+---
+
+## Bill Details
+
+- **Vendor:** Software Inc
+- **Service:** Annual SaaS Subscription
+- **Due Date:** 2026-03-30
+- **Amount:** $200.00
+
+## Approval Workflow
+
+- [x] Received and logged
+- [ ] Pending approval
+- [ ] Scheduled for payment
+- [ ] Paid
+
+## Budget Category
+
+Operating Expenses → Software & Tools

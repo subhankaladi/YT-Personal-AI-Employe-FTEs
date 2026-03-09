@@ -1,0 +1,33 @@
+# Inbox Folder
+
+This folder contains incoming items that need to be processed by AI agents.
+
+## Example Structure
+
+```markdown
+---
+type: email
+from: client@example.com
+subject: Project Inquiry
+received: 2026-03-09T10:00:00Z
+priority: normal
+status: new
+---
+
+## Email Content
+
+Hi, I'm interested in your services...
+
+## Suggested Actions
+
+- [ ] Review and categorize
+- [ ] Assign to appropriate agent
+- [ ] Create response draft
+```
+
+## Workflow
+
+1. Watchers detect new items (Gmail, WhatsApp, etc.)
+2. Create action files in `Inbox/`
+3. Agents pick up and process
+4. Move to `Needs_Action/` or `Done/`

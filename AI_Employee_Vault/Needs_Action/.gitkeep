@@ -1,0 +1,48 @@
+# Needs_Action Folder
+
+Items that require active processing by AI agents.
+
+## Example: Email Response Required
+
+```markdown
+---
+type: email
+from: client@example.com
+subject: Invoice Request
+received: 2026-03-09T10:30:00Z
+priority: high
+status: pending
+assigned_to: email_agent
+---
+
+## Email Content
+
+Can you please send me the invoice for last month?
+
+## Suggested Actions
+
+- [ ] Generate invoice #1234
+- [ ] Reply with invoice attached
+- [ ] Archive email after sending
+```
+
+## Example: Social Media Comment
+
+```markdown
+---
+type: facebook_comment
+post_id: 1101488969704000_123456
+from: John Doe
+comment: Great service! Do you offer discounts for startups?
+received: 2026-03-09T14:20:00Z
+priority: normal
+status: pending
+assigned_to: social_media_agent
+---
+
+## Suggested Actions
+
+- [ ] Draft friendly response
+- [ ] Check if discount policy applies
+- [ ] Post response after approval
+```

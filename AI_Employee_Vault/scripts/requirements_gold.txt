@@ -1,0 +1,38 @@
+# Gold Tier Requirements
+# All Silver Tier dependencies plus Gold Tier additions
+
+# Silver Tier Requirements
+playwright>=1.40.0
+google-auth>=2.25.0
+google-auth-oauthlib>=1.2.0
+google-auth-httplib2>=0.2.0
+google-api-python-client>=2.111.0
+watchdog>=3.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Gold Tier Additions
+
+# Odoo Integration
+# (uses requests, already included)
+
+# Facebook Graph API Integration
+# (uses requests, already included - NO browser automation needed!)
+
+# Additional utilities
+schedule>=1.2.0  # For advanced scheduling
+pydantic>=2.5.0  # For data validation
+aiohttp>=3.9.0  # For async HTTP requests
+
+# MCP Server Framework
+mcp>=1.0.0  # Model Context Protocol server
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.23.0
+
+# Logging and monitoring
+jsonlines>=4.0.0  # For structured logging
+
+# Optional: For Instagram integration (future)
+# instagrapi>=2.0.0

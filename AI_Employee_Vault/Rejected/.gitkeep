@@ -1,0 +1,47 @@
+# Rejected Folder
+
+Rejected actions with feedback for agent learning.
+
+## Example: Rejected Payment
+
+```markdown
+---
+type: approval_request
+action: payment
+amount: 500.00
+currency: USD
+recipient: Client A
+bank_account: XXXX1234
+created: 2026-03-09T10:30:00Z
+rejected_at: 2026-03-09T12:00:00Z
+rejected_by: CEO
+status: rejected
+---
+
+## Payment Details
+
+- **Amount:** $500.00
+- **To:** Client A (Bank: XXXX1234)
+- **Reference:** Invoice #1234
+
+## Rejection Reason
+
+Invoice amount doesn't match contract. Contract specifies $450/month, not $500.
+
+## Agent Learning
+
+- Verify invoice amounts against contract before requesting approval
+- Flag discrepancies for human review
+
+## Next Steps
+
+- [ ] Notify accounting agent of rejection
+- [ ] Request corrected invoice from vendor
+- [ ] Archive with rejection note
+```
+
+## Purpose
+
+- Provides feedback loop for agent learning
+- Documents decision rationale
+- Prevents repeated mistakes

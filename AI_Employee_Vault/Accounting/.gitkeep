@@ -1,0 +1,80 @@
+# Accounting Folder
+
+Financial transactions and accounting records.
+
+## Example: Bank Transaction Record
+
+```markdown
+---
+type: bank_transaction
+transaction_id: TXN-2026-03-09-001
+date: 2026-03-09
+amount: -500.00
+currency: USD
+counterparty: Client A
+category: accounts_payable
+status: reconciled
+---
+
+## Transaction Details
+
+- **Date:** 2026-03-09
+- **Amount:** -$500.00 (outflow)
+- **Recipient:** Client A
+- **Bank Reference:** WIRE-123456
+- **Purpose:** Payment for Invoice #1234
+
+## Linked Documents
+
+- Invoice: /Invoices/2026-02/Invoice_1234.md
+- Approval: /Approved/payment_1234.md
+- Bank Statement: /Accounting/2026-03/bank_statement.md
+
+## Accounting Entry
+
+| Account | Debit | Credit |
+|---------|-------|--------|
+| Accounts Payable | $500 | - |
+| Bank | - | $500 |
+
+## Reconciliation
+
+- [x] Matched with bank statement
+- [x] Verified against invoice
+- [x] Posted to Odoo Accounting
+```
+
+## Example: Monthly Summary
+
+```markdown
+---
+type: monthly_summary
+period: 2026-02
+generated_at: 2026-03-01T00:00:00Z
+---
+
+## February 2026 Summary
+
+### Income
+
+- Revenue: $15,000
+- Other Income: $500
+- **Total Income: $15,500**
+
+### Expenses
+
+- Salaries: $8,000
+- Office Rent: $2,000
+- Software Subscriptions: $500
+- **Total Expenses: $10,500**
+
+### Net Profit
+
+**$5,000** (32% margin)
+
+## Cash Flow
+
+- Opening Balance: $25,000
+- Net Cash Flow: +$5,000
+- Closing Balance: $30,000
+```

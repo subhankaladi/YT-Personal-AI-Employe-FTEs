@@ -1,0 +1,73 @@
+# Pending_Approval Folder
+
+Actions requiring human approval before execution (Human-in-the-Loop).
+
+## Example: Payment Approval
+
+```markdown
+---
+type: approval_request
+action: payment
+amount: 500.00
+currency: USD
+recipient: Client A
+bank_account: XXXX1234
+created: 2026-03-09T10:30:00Z
+expires: 2026-03-10T10:30:00Z
+status: pending
+---
+
+## Payment Details
+
+- **Amount:** $500.00
+- **To:** Client A (Bank: XXXX1234)
+- **Reference:** Invoice #1234
+- **Due Date:** 2026-03-15
+
+## Justification
+
+Payment for consulting services rendered in February 2026.
+Invoice matches contract terms.
+
+## To Approve
+
+Move this file to `/Approved` folder.
+
+## To Reject
+
+Move this file to `/Rejected` folder with reason.
+```
+
+## Example: Email Send Approval
+
+```markdown
+---
+type: approval_request
+action: send_email
+to: investor@vc.com
+subject: Q1 Business Update
+created: 2026-03-09T15:00:00Z
+status: pending
+---
+
+## Email Draft
+
+Dear Investor,
+
+Here's our Q1 business update...
+
+## To Approve
+
+Move to `/Approved` - email will be sent automatically.
+
+## To Reject
+
+Move to `/Rejected` with feedback.
+```
+
+## Workflow
+
+1. Agent creates approval request
+2. Human reviews (CEO/Manager)
+3. Move to `Approved/` → Auto-execute
+4. Move to `Rejected/` → Agent learns from feedback

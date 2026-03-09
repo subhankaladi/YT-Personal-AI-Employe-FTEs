@@ -1,0 +1,43 @@
+# Approved Folder
+
+Approved actions ready for execution.
+
+## Example: Approved Payment
+
+```markdown
+---
+type: approval_request
+action: payment
+amount: 500.00
+currency: USD
+recipient: Client A
+bank_account: XXXX1234
+created: 2026-03-09T10:30:00Z
+approved_at: 2026-03-09T11:00:00Z
+approved_by: CEO
+status: approved
+---
+
+## Payment Details
+
+- **Amount:** $500.00
+- **To:** Client A (Bank: XXXX1234)
+- **Reference:** Invoice #1234
+
+## Approval
+
+Approved by CEO via file move to /Approved folder.
+
+## Execution
+
+- [ ] Execute payment via Odoo/banking API
+- [ ] Record in Accounting folder
+- [ ] Move to Done folder
+```
+
+## Workflow
+
+1. Files moved here from `Pending_Approval/` by human
+2. Accounting agent picks up and executes
+3. Records transaction in `Accounting/`
+4. Moves to `Done/` after completion

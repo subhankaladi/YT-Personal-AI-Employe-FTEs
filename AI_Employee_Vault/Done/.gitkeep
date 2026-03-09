@@ -1,0 +1,74 @@
+# Done Folder
+
+Completed and processed items (audit trail).
+
+## Example: Completed Email Response
+
+```markdown
+---
+type: email
+from: client@example.com
+subject: Invoice Request
+received: 2026-03-09T10:30:00Z
+completed_at: 2026-03-09T11:15:00Z
+processed_by: email_agent
+status: completed
+---
+
+## Original Request
+
+Can you please send me the invoice for last month?
+
+## Actions Taken
+
+1. Generated invoice #1234 ($500 for February 2026)
+2. Replied to client with invoice attached
+3. Archived original email
+
+## Attachments Generated
+
+- invoices/2026-02/Invoice_1234.pdf
+
+## Outcome
+
+Client received invoice within 45 minutes of request.
+```
+
+## Example: Completed Social Media Post
+
+```markdown
+---
+type: facebook_post
+platform: facebook
+page_id: 1101488969704000
+created_at: 2026-03-09T09:00:00Z
+posted_at: 2026-03-09T09:05:00Z
+processed_by: social_media_agent
+status: published
+---
+
+## Post Content
+
+🚀 Exciting news! Our AI Employee FTE is now live...
+
+## Engagement (as of 2026-03-09T17:00:00Z)
+
+- 👍 Likes: 42
+- 💬 Comments: 15
+- 🔄 Shares: 8
+
+## Follow-up Actions
+
+- 12 comments responded to
+- 3 leads captured in CRM
+
+## Post URL
+
+https://facebook.com/1101488969704000/posts/123456
+```
+
+## Retention Policy
+
+- Keep for 90 days
+- Archive to long-term storage quarterly
+- Maintain for compliance/audit requirements

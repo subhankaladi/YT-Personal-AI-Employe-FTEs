@@ -1,0 +1,50 @@
+# In_Progress Folder
+
+Contains items currently being worked on by specific agents.
+
+## Structure
+
+```
+In_Progress/
+├── email_agent/
+│   └── active_tasks.md
+├── social_media_agent/
+│   └── active_tasks.md
+├── accounting_agent/
+│   └── active_tasks.md
+└── whatsapp_agent/
+    └── active_tasks.md
+```
+
+## Example: Agent Claim File
+
+```markdown
+---
+agent: email_agent
+claimed_at: 2026-03-09T11:00:00Z
+task_type: email_response
+original_file: Needs_Action/email_123.md
+status: in_progress
+---
+
+## Current Task
+
+Responding to invoice request from client@example.com
+
+## Steps Completed
+
+- [x] Read email content
+- [x] Generated invoice PDF
+- [ ] Send email with attachment
+- [ ] Move to Done folder
+
+## Estimated Completion
+
+2026-03-09T11:15:00Z
+```
+
+## Purpose
+
+- Prevents multiple agents from processing the same item
+- Tracks agent activity and progress
+- Enables debugging and audit trail
